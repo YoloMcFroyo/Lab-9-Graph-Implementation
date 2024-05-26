@@ -38,6 +38,22 @@ public class GraphTest {
     assertEquals(4, neighbors[1]);
   }
 
+  @Test
+  public void testGetNeighborsEmpty() {
+    Graph graph = new Graph(20);
+    int[] neighbors = graph.getNeighbors(0);
+    assertEquals(0, neighbors.length);
+  }
+
+  @Test
+  public void testDuplicateEdge() {
+    Graph graph = new Graph(20);
+    graph.addEdge(0, 1, 1);
+    graph.addEdge(0, 1, 1);
+    int[] neighbors = graph.getNeighbors(0);
+    assertEquals(1, neighbors.length);
+    assertEquals(1, neighbors[0]);
+  }
 
  
 

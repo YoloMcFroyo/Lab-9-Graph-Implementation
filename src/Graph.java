@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.HashMap;
 
@@ -118,5 +119,57 @@ public class Graph {
       }
     }
   }
+
+  public void dijkstra(int start, int destination){
+    if (start >= numVertices || start < 0 || destination >= numVertices || destination < 0) {
+      throw new IllegalArgumentException("Vertex out of bounds");
+    }
+
+    if (start == destination){
+      System.out.println("Shortest path is 0");
+      return;
+    }
+    
+    HashMap<Integer, Boolean> visited = new HashMap<>();           //mark vertices as visited 
+    HashMap<Integer, Integer> shortestDistance = new HashMap<>();  //shortest distance for each vertices
+    HashMap<Integer, Integer> previous = new HashMap<>();          //previous vertex in the shortest path
+    PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>(); //queue to store vertices to visit
+
+    for(int i =0; i< numVertices; i++){ //set all shortest paths to infinity
+      shortestDistance.put(i, Integer.MAX_VALUE); 
+    }
+
+    shortestDistance.put(start, 0);
+    minHeap.add(start);
+
+    while(!minHeap.isEmpty()){
+      int current = minHeap.poll();
+      visited.put(current, true);
+
+      for(int i : getNeighbors(current)){
+        if(!visited.containsKey(i)){ 
+          int newDistance = shortestDistance.get(current) + adjMatrix[current][i];
+          if (newDistance < shortestDistance.get(i)) {
+            shortestDistance.put(i, newDistance);
+            previous.put(i, current);
+          }
+          minHeap.add(i);
+        }
+      }
+    }
+
+    int current = destination;
+    System.out.print("Shortest Path: ");
+    while(current != start){
+      System.out.print(current + " ");
+      current = previous.get(current);
+    }
+    System.out.println(start);
+    System.out.println("Distance: " + shortestDistance.get(destination));
+  }
+
+
+
+  
 
 }
