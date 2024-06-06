@@ -1,11 +1,10 @@
 Results from vert 1 to vert 37
 
-Shortest Path: 37 23 22 25 5 1
-Distance: 25
-
+Shortest Path: 37 35 36 32 28 25 5 1  
+Distance: 22
 
 
 Results from vert 14 to vert 23
 
-Shortest Path: 23 22 25 5 1 0 14
-Distance: 35
+Shortest Path: 23 37 30 10 13 12 11 14
+Distance: 25

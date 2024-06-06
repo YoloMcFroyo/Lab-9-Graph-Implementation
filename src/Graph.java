@@ -133,27 +133,28 @@ public class Graph {
     HashMap<Integer, Boolean> visited = new HashMap<>();           //mark vertices as visited 
     HashMap<Integer, Integer> shortestDistance = new HashMap<>();  //shortest distance for each vertices
     HashMap<Integer, Integer> previous = new HashMap<>();          //previous vertex in the shortest path
-    PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>(); //queue to store vertices to visit
+    PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a[1], b[1])); //Index 0 is vertex, index 1 is distance. Used to determine which vertex is next
 
     for(int i =0; i< numVertices; i++){ //set all shortest paths to infinity
       shortestDistance.put(i, Integer.MAX_VALUE); 
     }
 
     shortestDistance.put(start, 0);
-    minHeap.add(start);
+    minHeap.add(new int[] {start, 0});
 
     while(!minHeap.isEmpty()){
-      int current = minHeap.poll();
-      visited.put(current, true);
+      int[] current = minHeap.poll();
+      int currentVertex = current[0];
+      int currentDistance = current[1];
 
-      for(int i : getNeighbors(current)){
+      for(int i : getNeighbors(currentVertex)){
         if(!visited.containsKey(i)){ 
-          int newDistance = shortestDistance.get(current) + adjMatrix[current][i];
+          int newDistance = currentDistance + adjMatrix[currentVertex][i];
           if (newDistance < shortestDistance.get(i)) {
             shortestDistance.put(i, newDistance);
-            previous.put(i, current);
+            previous.put(i, currentVertex);
+            minHeap.add(new int[] {i, newDistance});
           }
-          minHeap.add(i);
         }
       }
     }
